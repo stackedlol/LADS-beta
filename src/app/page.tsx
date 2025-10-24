@@ -18,7 +18,7 @@ export default function Home() {
       const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', 
         },
         body: JSON.stringify({ email }),
       });
@@ -169,7 +169,7 @@ export default function Home() {
               phase="Phase 2"
               title="Multi-Cloud Expansion"
               features={[
-                "Extend LADS to work for AWS and GCP",
+                "Extend LADS to work for Azure and GCP",
                 "Cross-cloud compatibility",
                 "Unified management interface"
               ]}
