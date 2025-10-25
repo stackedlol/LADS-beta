@@ -138,10 +138,18 @@ export default function Home() {
                   )}
                   
                   {/* Waitlist Counter */}
-                  {waitlistCount !== null && (
-                    <div className="mt-4 pt-4 border-t border-emerald-200/30">
-                      <div className="flex items-center justify-center gap-2">
-                        <div className="flex items-center gap-2.5 bg-emerald-50/80 px-4 py-2.5 rounded-full border border-emerald-200/50">
+                  <div className="mt-4 pt-4 border-t border-emerald-200/30">
+                    <div className="flex items-center justify-center gap-2">
+                      {waitlistCount === null ? (
+                        <div className="flex items-center gap-2.5 bg-emerald-50/50 px-4 py-2.5 rounded-full border border-emerald-200/30">
+                          <svg className="animate-spin w-4 h-4 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span className="text-sm font-medium text-emerald-600">Loading...</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2.5 bg-emerald-50/80 px-4 py-2.5 rounded-full border border-emerald-200/50 animate-fade-in">
                           <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                           </svg>
@@ -149,9 +157,9 @@ export default function Home() {
                             <span className="text-emerald-800 font-semibold">{waitlistCount.toLocaleString()}</span> {waitlistCount === 1 ? 'person' : 'people'} on the waitlist
                           </span>
                         </div>
-                      </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
