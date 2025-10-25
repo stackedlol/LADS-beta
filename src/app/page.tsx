@@ -8,6 +8,21 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
+
+  const fetchWaitlistCount = async () => {
+    try {
+      const response = await fetch('/api/waitlist');
+      const data = await response.json();
+      setWaitlistCount(data.count);
+    } catch (err) {
+      console.error('Failed to fetch waitlist count:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchWaitlistCount();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +47,9 @@ export default function Home() {
       setSubmitted(true);
       setEmail(''); // Clear the input
       setTimeout(() => setSubmitted(false), 5000);
+      
+      // Refresh the waitlist count
+      fetchWaitlistCount();
 
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.');
@@ -117,6 +135,22 @@ export default function Home() {
                     <p className="text-xs text-black/40 mt-3 md:mt-4 text-center">
                       No spam. Launch updates only.
                     </p>
+                  )}
+                  
+                  {/* Waitlist Counter */}
+                  {waitlistCount !== null && (
+                    <div className="mt-4 pt-4 border-t border-emerald-200/30">
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="flex items-center gap-2.5 bg-emerald-50/80 px-4 py-2.5 rounded-full border border-emerald-200/50">
+                          <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                          </svg>
+                          <span className="text-sm font-medium text-emerald-700">
+                            <span className="text-emerald-800 font-semibold">{waitlistCount.toLocaleString()}</span> {waitlistCount === 1 ? 'person' : 'people'} on the waitlist
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>

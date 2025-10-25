@@ -1,6 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
+export async function GET() {
+  try {
+    const client = await clientPromise;
+    const db = client.db('lads');
+    const collection = db.collection('waitlist');
+    
+    const count = await collection.countDocuments();
+    
+    return NextResponse.json(
+      { count },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error('❌ Waitlist Count Error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch waitlist count', count: 0 },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   console.log('📨 Waitlist API called');
   console.log('🔑 MongoDB URI exists:', !!process.env.MONGODB_URI);
